@@ -35,8 +35,26 @@ pip install -r requirements.txt
 ```
 
 ## Quick Start
+
 ```python
 from seir_model import SEIRModel
+
+simulation = DengueOutbreakSimulation(
+    beta=0.3,    # Infection rate: probability of disease transmission per contact between S and I
+    sigma=0.2,   # Incubation rate: rate at which exposed individuals become infectious (1/latent period)
+    gamma=0.1,   # Recovery rate: rate at which infected individuals recover (1/infectious period)
+    N=10000,     # Total population size: number of individuals in the simulation
+    E0=100,      # Initial exposed population: number of people exposed at start
+    I0=0,        # Initial infected population: number of infected people at start
+    R0=0,        # Initial recovered population: number of recovered people at start
+    duration_days=100  # Length of simulation in days
+)
+
+# Execute the simulation
+# Returns two objects:
+# - df: detailed DataFrame with daily counts
+# - seir_data: dictionary containing S, E, I, R populations over time
+df, seir_data = simulation.run_simulation()
 
 # Initialize the model with parameters
 model = SEIRModel(
@@ -47,10 +65,10 @@ model = SEIRModel(
     E0=100       # Initial exposed population
 )
 
-# Run simulation
-results = model.simulate(days=100)
-model.plot_results()
 ```
+## Run simulation
+
+run Model_run.py 
 
 ## Model Parameters
 | Parameter | Description | Typical Range |
@@ -63,16 +81,10 @@ model.plot_results()
 ## Output
 The simulation provides:
 - Interactive time-series plots of all compartments
-- CSV export of daily counts
+- CSV/PDF export of daily counts
 - Basic reproduction number (R0) estimates
 - Peak infection timing and magnitude
 - Epidemic duration estimates
-
-## Documentation
-Detailed documentation is available in the `/docs` directory:
-- [Model Mathematics](docs/model.md)
-- [API Reference](docs/api.md)
-- [Examples](docs/examples.md)
 
 ## Contributing
 We welcome contributions! Please follow these steps:
